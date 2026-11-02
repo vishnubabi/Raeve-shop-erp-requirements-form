@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business software requirements form</title>
+<meta name="description" content="Tell us how your shops and wholesale business work so the software is built around you.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f5c518">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f5c518'/%3E%3Cpath d='M7 9v10M12 9v6M17 9v10M22 9v6M27 9v10' stroke='%231b2350' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&display=swap">
+<style>
+:root{
+  --ink:#1b2350;
+  --ink-2:#4b527c;
+  --chalk:#f4f5f9;
+  --paper:#ffffff;
+  --line:#c6cade;
+  --stitch:#a9b0d3;
+  --tint:#e9ecfa;
+  --tape:#f5c518;
+  --tape-dark:#dcae0b;
+  --ok:#17784f;
+  --focus:#3f51d8;
+  --head:"Bricolage Grotesque","Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --bar-h:58px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--chalk);color:var(--ink);font:400 1.0625rem/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2{font-family:var(--head);margin:0}
+
+/* ---------- Progress tape (sticky) ---------- */
+.bar{position:sticky;top:0;z-index:20;background:var(--chalk);box-shadow:0 1px 0 var(--line)}
+.tape{position:relative;height:22px;background-color:#e3e6f2;overflow:hidden}
+.tape::after,.tape-fill::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,var(--ink) 2px,transparent 2px) 0 0/80px 15px repeat-x,
+    linear-gradient(90deg,var(--ink) 1.5px,transparent 1.5px) 0 0/40px 11px repeat-x,
+    linear-gradient(90deg,var(--ink) 1px,transparent 1px) 0 0/8px 6px repeat-x;
+}
+.tape::after{opacity:.22}
+.tape-fill{position:absolute;left:0;top:0;bottom:0;width:0;min-width:9px;background:var(--tape);transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.tape-fill::after{opacity:.85}
+.hook{position:absolute;right:0;top:0;bottom:0;width:8px;background:var(--ink);border-radius:0 3px 3px 0;z-index:1}
+@media (prefers-reduced-motion:reduce){.tape-fill{transition:none}}
+.bar-row{height:calc(var(--bar-h) - 22px);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 20px;font-size:.88rem;color:var(--ink-2)}
+.bar-row b{color:var(--ink)}
+.bar-row .sep{flex:1}
+.bar-row a{font-weight:700;color:var(--ink);text-underline-offset:3px}
+@media (max-width:520px){.sm-hide{display:none}}
+
+/* ---------- Layout ---------- */
+.shell{padding:0 20px}
+.layout{display:block}
+.toc{display:none}
+@media (min-width:960px){
+  .layout{display:grid;grid-template-columns:210px minmax(0,720px);gap:64px;justify-content:center}
+  .toc{display:block;position:sticky;top:calc(var(--bar-h) + 28px);align-self:start;max-height:calc(100vh - var(--bar-h) - 56px);overflow:auto;padding:40px 0 20px}
+}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc a{display:grid;grid-template-columns:24px 1fr auto;gap:6px;align-items:baseline;padding:7px 10px 7px 12px;border-left:3px solid transparent;color:var(--ink-2);text-decoration:none;font-size:.92rem;line-height:1.3}
+.toc a:hover{color:var(--ink);background:var(--tint)}
+.toc a[aria-current="true"]{color:var(--ink);font-weight:700;border-left-color:var(--tape-dark)}
+.toc .c{font-size:.8rem;font-variant-numeric:tabular-nums}
+.toc a.full .c{color:var(--ok);font-weight:700}
+.toc a:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+
+/* ---------- Hero ---------- */
+.hero{padding:44px 0 36px}
+.hero h1{font-weight:800;font-size:clamp(2.1rem,5.6vw,3.5rem);line-height:1.03;letter-spacing:-.025em;font-variation-settings:"opsz" 96;max-width:14em}
+.lede{margin:20px 0 0;max-width:36em;font-size:1.1rem}
+.steps{list-style:none;counter-reset:s;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.steps li{counter-increment:s;border-top:3px solid var(--ink);padding-top:10px;font-size:.98rem;line-height:1.4}
+.steps li::before{content:counter(s);display:block;font:800 1.5rem/1 var(--head);margin-bottom:6px}
+@media (max-width:640px){
+  .steps{grid-template-columns:1fr;gap:14px}
+  .steps li{position:relative;padding-left:38px}
+  .steps li::before{position:absolute;left:0;top:7px;margin:0}
+}
+.privacy{margin:22px 0 0;color:var(--ink-2);font-size:.95rem}
+
+/* ---------- Sections ---------- */
+.sec{position:relative;padding:44px 0 44px;scroll-margin-top:calc(var(--bar-h) - 4px)}
+.sec::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,var(--stitch) 0 10px,transparent 10px 17px)}
+.sec-head{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.sec-head h2{font-weight:700;font-size:clamp(1.5rem,3.6vw,1.9rem);line-height:1.15;letter-spacing:-.015em}
+.tag{position:relative;flex:none;width:38px;height:46px;background:var(--ink);color:#fff;display:grid;place-items:end center;padding-bottom:7px;font:700 1.05rem/1 var(--head);clip-path:polygon(22% 0,78% 0,100% 20%,100% 100%,0 100%,0 20%)}
+.tag::before{content:"";position:absolute;top:8px;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:var(--chalk)}
+
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 20px}
+.field{grid-column:1/-1;min-width:0}
+.field.half{grid-column:auto}
+@media (max-width:640px){.field.half{grid-column:1/-1}}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.lbl,legend{display:block;padding:0;margin:0 0 9px;font-weight:700;font-size:1.02rem;line-height:1.35}
+.hint{font-weight:400;color:var(--ink-2);font-size:.9rem;margin-left:8px}
+.help{margin:-3px 0 11px;color:var(--ink-2);font-size:.95rem;max-width:40em}
+.note{margin:0;padding:14px 16px;border-radius:10px;background:var(--tint);color:var(--ink);font-size:.98rem;max-width:40em}
+
+.in{display:block;width:100%;min-height:50px;padding:12px 14px;font:inherit;font-size:1rem;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;appearance:none;-webkit-appearance:none}
+textarea.in{min-height:96px;resize:vertical;line-height:1.45}
+.in::placeholder{color:#6b7298;opacity:1}
+.in:hover{border-color:var(--stitch)}
+.in:focus{outline:3px solid var(--focus);outline-offset:1px;border-color:var(--focus)}
+
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:9px}
+.opt{background:#fff;border:1.5px solid var(--line);border-radius:10px;transition:background-color .15s,border-color .15s}
+.opt:hover{border-color:var(--stitch)}
+.opt.is-on{background:var(--tint);border-color:var(--ink)}
+.opt.other.is-on{grid-column:1/-1}
+.opt-main{position:relative;display:flex;align-items:flex-start;gap:12px;padding:12px 14px;min-height:50px;cursor:pointer;line-height:1.35}
+.sr{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.box{flex:none;position:relative;width:22px;height:22px;margin-top:0;border:2px solid var(--ink-2);border-radius:6px;background:#fff}
+.opt.radio .box{border-radius:50%}
+.sr:focus-visible + .box{outline:3px solid var(--focus);outline-offset:2px}
+.opt.is-on .box{border-color:var(--ink)}
+.opt:not(.radio).is-on .box{background:var(--ink)}
+.opt:not(.radio).is-on .box::after{content:"";position:absolute;left:6px;top:1.5px;width:5px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.opt.radio.is-on .box::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--ink)}
+.other-input{display:none;width:calc(100% - 28px);margin:0 14px 14px 14px}
+.opt.is-on .other-input{display:block}
+
+.prio-list{border-top:2px dashed var(--stitch)}
+.prio-row{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:8px 18px;align-items:center;padding:11px 0;border-bottom:2px dashed var(--stitch)}
+@media (max-width:640px){.prio-row{grid-template-columns:1fr}}
+.prio-name{font-weight:700;line-height:1.3}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.seg-opt{position:relative;display:block;cursor:pointer;border-left:1.5px solid var(--line)}
+.seg-opt:first-child{border-left:0}
+.seg-text{display:block;padding:11px 4px;text-align:center;font-size:.93rem;line-height:1.2;transition:background-color .15s}
+.seg-opt:hover .seg-text{background:var(--tint)}
+.seg-opt.is-on .seg-text{background:var(--ink);color:#fff;font-weight:700}
+.seg-opt .sr:focus-visible + .seg-text{outline:3px solid var(--focus);outline-offset:-3px}
+
+/* ---------- Finish ---------- */
+.finish{scroll-margin-top:calc(var(--bar-h) - 4px);padding:44px 0 20px;position:relative}
+.finish::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,var(--stitch) 0 10px,transparent 10px 17px)}
+.panel{background:var(--ink);color:#fff;border-radius:18px;padding:clamp(22px,4vw,34px)}
+.panel h2{font-weight:700;font-size:clamp(1.5rem,3.6vw,1.9rem);letter-spacing:-.015em;line-height:1.15}
+.panel p{margin:12px 0 0;max-width:36em;color:#dfe3f7}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 22px;font:700 1rem/1.2 var(--body);border-radius:12px;border:2px solid transparent;cursor:pointer;text-decoration:none}
+.btn-primary{background:var(--tape);color:var(--ink)}
+.btn-primary:hover{background:#ffd43b}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media (max-width:520px){.btns .btn{width:100%}}
+.panel .small{font-size:.92rem;color:#c5cbee}
+.status{min-height:1.6em;margin-top:14px;font-weight:700;color:var(--tape)}
+.quiet{margin:26px 0 0}
+.link-btn{background:none;border:0;padding:6px 0;font:inherit;font-size:.95rem;color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.link-btn:hover{color:var(--ink)}
+.link-btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.foot{margin:18px 0 60px;color:var(--ink-2);font-size:.9rem}
+
+/* ---------- Printable report (hidden on screen) ---------- */
+#report{display:none}
+@media print{
+  @page{margin:16mm 14mm}
+  html,body{background:#fff}
+  .app{display:none!important}
+  #report{display:block;color:#000;font:400 10.5pt/1.45 var(--body)}
+  #report h1{font:800 20pt/1.15 var(--head);margin:0 0 4pt}
+  .r-meta{margin:0 0 16pt;color:#444}
+  .r-sec{margin:0 0 16pt}
+  .r-sec h2{font:700 13pt/1.2 var(--head);border-bottom:1.5pt solid #000;padding-bottom:3pt;margin:0 0 4pt;break-after:avoid}
+  .r-sub{margin:8pt 0 2pt;font-weight:700;break-after:avoid}
+  .r-row{display:grid;grid-template-columns:42% minmax(0,1fr);gap:10pt;padding:4pt 0;border-bottom:.5pt solid #bbb;break-inside:avoid}
+  .r-q{font-weight:700}
+  .r-a{white-space:pre-wrap}
+  .r-a ul{margin:0;padding-left:13pt}
+  .r-none{color:#666}
+}
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px;font:1.1rem/1.5 sans-serif">This form needs JavaScript. Please open it in a regular browser such as Chrome, Edge or Safari.</p></noscript>
+
+<div class="app">
+  <header class="bar">
+    <div class="tape" role="progressbar" aria-label="Questions answered" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="tape">
+      <div class="tape-fill" id="tapeFill"><i class="hook"></i></div>
+    </div>
+    <div class="bar-row">
+      <span id="count"><b>0</b> answered</span>
+      <span class="sep"></span>
+      <span id="status">Saves as you go</span>
+      <a href="#finish" aria-label="Go to the download section">Download</a>
+    </div>
+  </header>
+
+  <div class="shell layout">
+    <nav class="toc" aria-label="Form sections"><ol id="toc"></ol></nav>
+
+    <main>
+      <section class="hero">
+        <h1>What your business software needs to do</h1>
+        <p class="lede">Tell us how your shops and wholesale work today. Tick what applies and write short answers where there is a blank. Skip anything that does not apply. If you are unsure, write “not sure” and we will go through it together.</p>
+        <ol class="steps">
+          <li>Fill in what you can. Your answers save as you go.</li>
+          <li>Download your answers.</li>
+          <li>Send the file to <span id="sendTo">the person who shared this form with you</span>.</li>
+        </ol>
+        <p class="privacy">Your answers stay in this browser. Nothing is sent anywhere until you share the file yourself.</p>
+      </section>
+
+      <form id="form" autocomplete="off" novalidate>
+        <div id="sections"></div>
+      </form>
+
+      <section class="finish" id="finish">
+        <div class="panel">
+          <h2>Download your answers</h2>
+          <p>You can download at any time, even if some questions are blank. Then send the file to <span id="sendTo2">the person who shared this form with you</span> on WhatsApp or by email.</p>
+          <div class="btns">
+            <button type="button" class="btn btn-primary" id="pdfBtn">Save as PDF</button>
+            <button type="button" class="btn btn-ghost" id="txtBtn">Download text file</button>
+            <button type="button" class="btn btn-ghost" id="shareBtn" hidden>Share file</button>
+          </div>
+          <p class="small">Save as PDF opens your print window. Choose “Save as PDF” as the printer.</p>
+          <div class="status" id="msg" role="status" aria-live="polite"></div>
+        </div>
+        <p class="quiet"><button type="button" class="link-btn" id="clearBtn">Clear all answers</button></p>
+        <p class="foot">Answers are kept only in this browser on this device. Clearing your browser data removes them, so download before you do.</p>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div id="report" aria-hidden="true"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= Settings you can change ================= */
+const CONFIG = {
+  developer: '',            // Your name, for example "Vishnu". Shown in the "send the file to ..." lines. Leave empty to keep the generic wording.
+  storageKey: 'business-software-requirements-v1'
+};
+
+/* ================= The questions ================= */
+const T = (id, label, o = {}) => ({ type: 'text', id, label, ...o });
+const A = (id, label, o = {}) => ({ type: 'textarea', id, label, ...o });
+const D = (id, label, o = {}) => ({ type: 'date', id, label, ...o });
+const C = (id, label, options, o = {}) => ({ type: 'checks', id, label, options, ...o });
+const R = (id, label, options, o = {}) => ({ type: 'radio', id, label, options, ...o });
+const N = (text) => ({ type: 'note', text });
+const OTHER = (label = 'Other', ph = 'Please specify') => ({ label, other: true, ph });
+
+const PRIO = [
+  { short: 'Day one', long: 'Day one' },
+  { short: 'Soon',    long: 'Soon (within 2–3 months)' },
+  { short: 'Later',   long: 'Later (can wait)' }
+];
+
+const FORM = [
+  { title: 'Business details', fields: [
+    T('brand', 'Brand / company name', { ac: 'organization' }),
+    T('contact', 'Contact person', { half: true, ac: 'name' }),
+    T('phone', 'Phone number', { half: true, type: 'tel', ac: 'tel' }),
+    T('decider', 'Who makes the final decisions on this project?'),
+    T('shops', 'Number of retail shops', { half: true, ph: 'For example 3' }),
+    T('warehouses', 'Number of warehouses / godowns', { half: true, ph: 'For example 1' }),
+    R('manufacture', 'Do you manufacture or stitch in-house?', [
+      'Yes, we manufacture',
+      'No, we only buy and sell finished goods',
+      'Both'
+    ])
+  ]},
+
+  { title: 'Users and devices', fields: [
+    C('users', 'Who will use the software?', [
+      'Owner / management', 'Billing staff at shops', 'Store managers', 'Warehouse staff',
+      'Accountant', 'Sales agents / salesmen', OTHER()
+    ]),
+    T('userCount', 'Total number of users', { half: true, ph: 'For example 12' }),
+    C('devices', 'Which devices will be used?', [
+      'Windows PC / laptop', 'Android phone / tablet', 'iPhone / iPad', 'Mac'
+    ]),
+    R('permissions', 'Should different users see different things?', [
+      'Yes, I need separate logins and permissions',
+      'No, everyone can see everything'
+    ], { help: 'For example, shop staff should not see profit or purchase prices.' }),
+    A('permissionsNotes', 'Details (optional)')
+  ]},
+
+  { title: 'Products and inventory', fields: [
+    T('products', 'Approximate number of products (designs / styles)', { half: true }),
+    T('skus', 'Approximate number of SKUs (style × size × color)', { half: true }),
+    C('variants', 'What variants does each product have?', [
+      'Size', 'Color', 'Fabric / material', 'Brand / category (men, women, kids)', 'Season / collection', OTHER()
+    ]),
+    C('barcodes', 'Barcodes and labels', [
+      'We already use barcodes / QR labels',
+      'We want the software to generate and print barcode labels',
+      'We do not use barcodes',
+      'We have a barcode scanner',
+      'We have a barcode label printer'
+    ]),
+    C('stock', 'Stock features needed', [
+      'Stock tracking across multiple shops and warehouses',
+      'Stock transfer between shops / warehouse',
+      'Low-stock alerts',
+      'Customer returns and exchanges',
+      'Damaged / defective stock tracking',
+      'Physical stock audit / stocktaking',
+      'Batch or lot tracking',
+      'Product photos in the software'
+    ]),
+    A('stockNotes', 'Anything special about how you handle stock?')
+  ]},
+
+  { title: 'Retail billing (shop counter)', fields: [
+    C('payments', 'Payment methods accepted', [
+      'Cash', 'UPI / QR', 'Debit / credit card', 'Split payment (part cash, part UPI/card)',
+      'Gift vouchers / store credit', OTHER()
+    ]),
+    C('billingFeatures', 'Billing features needed', [
+      'Discounts (per item, per bill, percentage or amount)',
+      'Offers / combo deals (for example buy 2 get 1)',
+      'Coupons',
+      'Loyalty points',
+      'Hold a bill and resume later',
+      'Bill exchange / return against old bill',
+      'Salesperson name on each bill',
+      'Day-end cash closing report'
+    ]),
+    C('printing', 'Bill printing', [
+      'Thermal receipt printer (80mm / 58mm)', 'A4 printer', 'WhatsApp / SMS / email bill to customer'
+    ]),
+    R('customerDetails', 'Do you want to capture customer details at billing?', [
+      'Always (name and phone)', 'Only if the customer wants', 'No'
+    ]),
+    R('offline', 'Should billing work when the internet is down?', [
+      'Yes, this is essential', 'Nice to have', 'No, internet is always available'
+    ]),
+    N('Please also send a photo of your current retail bill along with this form.')
+  ]},
+
+  { title: 'Wholesale', fields: [
+    T('wholesaleCustomers', 'Approximate number of wholesale customers (dealers / retailers)'),
+    C('pricing', 'Pricing', [
+      'Separate wholesale price for each product',
+      'Price slabs by quantity (for example 10+ pieces, 50+ pieces)',
+      'Special price for specific customers',
+      'Sell in size sets / packs (for example a set of 6 sizes)'
+    ]),
+    C('process', 'Selling process', [
+      'Quotation / estimate before the order',
+      'Sales order before the invoice',
+      'Partial delivery of an order',
+      'Delivery challan',
+      'Transport / lorry receipt details on the invoice',
+      'Sales return / credit note'
+    ]),
+    C('credit', 'Credit and payments', [
+      'We sell on credit',
+      'Credit limit per customer',
+      'Outstanding balance and ageing report',
+      'Payment reminders (WhatsApp / SMS)',
+      'Cheque tracking',
+      'Advance payments from customers'
+    ]),
+    C('agents', 'Agents and salesmen', [
+      'We work through agents and need commission tracking',
+      'Salesmen take orders in the field (a mobile order app would help)'
+    ]),
+    T('creditDays', 'Typical credit period given to customers (days)', { half: true })
+  ]},
+
+  { title: 'Purchasing and suppliers', fields: [
+    T('suppliers', 'Approximate number of suppliers', { half: true }),
+    C('purchaseNeeds', 'What do you need?', [
+      'Supplier list with contact and GST details',
+      'Purchase orders',
+      'Record purchase bills and update stock automatically',
+      'Supplier payments and outstanding balances',
+      'Purchase returns / debit notes',
+      'Landed cost (transport and other charges added to item cost)',
+      'Job work / outsourced stitching or dyeing tracking'
+    ]),
+    A('purchaseToday', 'How do you record purchases today?')
+  ]},
+
+  { title: 'Accounting and GST', fields: [
+    R('gst', 'Are you GST registered?', [
+      'Yes, regular scheme', 'Yes, composition scheme', 'No'
+    ]),
+    T('turnover', 'Approximate yearly turnover', { help: 'This helps us decide whether you need e-invoicing and e-way bills.', ph: 'For example ₹1.5 crore' }),
+    C('gstNeeds', 'What do you need?', [
+      'GST tax invoices (CGST / SGST / IGST)',
+      'HSN codes on items',
+      'GSTR-1 and GSTR-3B ready reports',
+      'E-invoicing (IRN / QR code)',
+      'E-way bill generation',
+      'Expense tracking',
+      'Profit and loss report',
+      'Bank and cash book',
+      'Full accounting (ledgers, vouchers, balance sheet)'
+    ]),
+    R('accountant', 'Your accountant uses', [
+      'Tally', OTHER('Busy, Marg or other software', 'Which software?'), 'Excel', 'Not sure'
+    ]),
+    R('accountingLink', 'Should the new software connect with your accounting software?', [
+      'Export data to Tally / Excel for the accountant',
+      'Replace the accounting software completely',
+      'Not needed'
+    ])
+  ]},
+
+  { title: 'Reports', fields: [
+    C('reports', 'Which reports do you want?', [
+      'Daily sales by shop and by payment method',
+      'Sales by product, size, color and category',
+      'Best-selling and slow-moving items',
+      'Current stock by location',
+      'Stock value',
+      'Profit / margin by item or by bill',
+      'Customer outstanding (receivables)',
+      'Supplier outstanding (payables)',
+      'Salesperson / agent performance',
+      'GST reports',
+      OTHER()
+    ]),
+    R('mobileReports', 'Does the owner want to check the business from a phone when away?', [
+      'Yes, daily summary on mobile', 'Only on a computer', 'Not needed'
+    ]),
+    T('firstReport', 'Which report do you look at first every morning?')
+  ]},
+
+  { title: 'Current setup, data and internet', fields: [
+    C('today', 'How do you manage the business today?', [
+      'Paper registers / bill books', 'Excel sheets', 'Tally', OTHER('Another billing software', 'Which software?'), 'Nothing organised yet'
+    ]),
+    C('existingData', 'Existing data to bring into the new software', [
+      'Product list with prices', 'Current stock quantities', 'Customer list with outstanding balances',
+      'Supplier list with outstanding balances', 'Past sales history'
+    ]),
+    R('samples', 'Can you share sample files or screenshots (Excel sheets, bills, reports)?', ['Yes', 'No']),
+    N('If yes, please send them along with this form.'),
+    R('internet', 'Internet at your shops and warehouse', [
+      'Stable internet everywhere', OTHER('Slow or drops often in some places', 'Which places?')
+    ]),
+    R('hosting', 'Where should the software run?', [
+      'Online (cloud) so I can access it from anywhere',
+      'On a computer in our shop / office only',
+      'Not sure, please advise'
+    ])
+  ]},
+
+  { title: 'Online sales and integrations', fields: [
+    C('onlineSales', 'Do you sell online?', [
+      'Own website', 'Shopify / WooCommerce', 'Amazon / Flipkart / Myntra', 'Instagram / WhatsApp orders', 'No online sales'
+    ]),
+    C('integrations', 'What do you want connected?', [
+      'Online and shop stock kept in sync',
+      'Online orders flowing into the software',
+      'WhatsApp / SMS messages to customers',
+      'Payment gateway or UPI reconciliation',
+      'Courier / shipping integration',
+      'Biometric attendance or payroll',
+      'None for now'
+    ])
+  ]},
+
+  { title: 'Your priorities', fields: [
+    { type: 'priority', id: 'prio', label: 'When do you need each part?',
+      help: 'Day one means it must work from the start. Soon means within 2 to 3 months. Later means it can wait.',
+      rows: [
+        'Products and stock', 'Retail billing (POS)', 'Wholesale invoicing', 'Customer and supplier ledgers',
+        'Purchases', 'GST reports', 'Full accounting', 'Reports and owner dashboard',
+        'Barcode printing', 'Online store stock sync', 'WhatsApp / SMS bills', 'Mobile app for salesmen'
+      ] },
+    A('troubles', 'What are the three things that cause you the most trouble today?')
+  ]},
+
+  { title: 'Timeline, budget and terms', fields: [
+    D('firstVersion', 'When do you need the first working version?', { half: true }),
+    R('dateFixed', 'Is this date fixed?', [
+      OTHER('Yes, a hard deadline', 'What is the reason?'),
+      'A first usable version in a few weeks is fine, with more added later'
+    ]),
+    T('budget', 'Budget range', { half: true, ph: 'For example ₹1.5 to 2 lakh' }),
+    C('afterDelivery', 'After delivery, do you want', [
+      'Ongoing maintenance and support',
+      'Staff training',
+      'Regular backups and hosting managed for you',
+      'Future feature additions as separate work'
+    ]),
+    A('extra', 'Anything else we should know?')
+  ]}
+];
+
+// Normalise options: strings become { label }
+FORM.forEach(s => s.fields.forEach(f => {
+  if (f.options) f.opts = f.options.map(o => typeof o === 'string' ? { label: o } : o);
+}));
+
+/* ================= Helpers ================= */
+const $ = (id) => document.getElementById(id);
+const h = (tag, attrs = {}, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === false || v == null) continue;
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) e.append(k);
+  return e;
+};
+const val = (id) => { const e = $(id); return e ? e.value.trim() : ''; };
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+const longDate = () => new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+const isoDate = () => new Date().toLocaleDateString('en-CA');
+const fmtDate = (v) => new Date(v + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+/* ================= Build the form ================= */
+const form = $('form');
+const sectionsEl = $('sections');
+const tocEl = $('toc');
+
+function renderOption(f, o, i, kind) {
+  const id = `${f.id}-${i}`;
+  const input = h('input', { type: kind, id, name: kind === 'radio' ? f.id : id, class: 'sr' });
+  const row = h('div', { class: 'opt' + (kind === 'radio' ? ' radio' : '') + (o.other ? ' other' : '') },
+    h('label', { class: 'opt-main' }, input, h('span', { class: 'box', 'aria-hidden': 'true' }), h('span', {}, o.label)));
+  if (o.other) {
+    row.append(h('input', { type: 'text', id: `${id}-t`, class: 'in other-input', placeholder: o.ph || 'Please specify', 'aria-label': `${o.label}, details` }));
+  }
+  return row;
+}
+
+function renderField(f) {
+  const wrap = h('div', { class: 'field' + (f.half ? ' half' : '') });
+  const add = (...nodes) => nodes.forEach(n => { if (n) wrap.append(n); });
+  switch (f.type) {
+    case 'note':
+      add(h('p', { class: 'note' }, f.text));
+      break;
+    case 'text':
+    case 'tel':
+    case 'date':
+      add(
+        h('label', { class: 'lbl', for: f.id }, f.label),
+        f.help ? h('p', { class: 'help' }, f.help) : null,
+        h('input', { type: f.type, id: f.id, name: f.id, class: 'in', placeholder: f.ph, autocomplete: f.ac || 'off' })
+      );
+      break;
+    case 'textarea':
+      add(
+        h('label', { class: 'lbl', for: f.id }, f.label),
+        h('textarea', { id: f.id, name: f.id, class: 'in', rows: '3' })
+      );
+      break;
+    case 'checks':
+    case 'radio': {
+      const kind = f.type === 'checks' ? 'checkbox' : 'radio';
+      add(h('fieldset', {},
+        h('legend', {}, f.label, h('span', { class: 'hint' }, kind === 'checkbox' ? 'Tick all that apply' : 'Choose one')),
+        f.help ? h('p', { class: 'help' }, f.help) : null,
+        h('div', { class: 'opts' }, f.opts.map((o, i) => renderOption(f, o, i, kind)))
+      ));
+      break;
+    }
+    case 'priority':
+      add(h('fieldset', {},
+        h('legend', {}, f.label),
+        f.help ? h('p', { class: 'help' }, f.help) : null,
+        h('div', { class: 'prio-list' }, f.rows.map((r, ri) => {
+          const nameId = `${f.id}-${ri}-name`;
+          return h('div', { class: 'prio-row', role: 'radiogroup', 'aria-labelledby': nameId },
+            h('span', { class: 'prio-name', id: nameId }, r),
+            h('div', { class: 'seg' }, PRIO.map((p, k) => h('label', { class: 'seg-opt' },
+              h('input', { type: 'radio', class: 'sr', id: `${f.id}-${ri}-${k}`, name: `${f.id}-${ri}` }),
+              h('span', { class: 'seg-text' }, p.short)
+            )))
+          );
+        }))
+      ));
+      break;
+  }
+  return wrap;
+}
+
+const navLinks = [];
+const secEls = [];
+FORM.forEach((s, si) => {
+  const id = `s-${si + 1}`;
+  const sec = h('section', { class: 'sec', id, 'aria-labelledby': `${id}-h` },
+    h('div', { class: 'sec-head' }, h('span', { class: 'tag', 'aria-hidden': 'true' }, String(si + 1)), h('h2', { id: `${id}-h` }, s.title)),
+    h('div', { class: 'fields' }, s.fields.map(renderField))
+  );
+  sectionsEl.append(sec);
+  secEls.push(sec);
+  const a = h('a', { href: `#${id}` }, h('span', {}, String(si + 1)), h('span', {}, s.title), h('span', { class: 'c' }, ''));
+  navLinks.push(a);
+  tocEl.append(h('li', {}, a));
+});
+const finishLink = h('a', { href: '#finish' }, h('span', {}, ''), h('span', {}, 'Download'), h('span', { class: 'c' }));
+tocEl.append(h('li', {}, finishLink));
+
+/* ================= Reading the answers ================= */
+function withOther(f, o, i) {
+  if (o.other) { const x = val(`${f.id}-${i}-t`); return x ? `${o.label}: ${x}` : o.label; }
+  return o.label;
+}
+
+function describe(f) {
+  if (f.type === 'priority') {
+    return { type: 'priority', q: f.label, rows: f.rows.map((r, ri) => {
+      const k = PRIO.findIndex((_, k) => $(`${f.id}-${ri}-${k}`).checked);
+      return { q: r, a: k < 0 ? null : PRIO[k].long };
+    })};
+  }
+  if (f.type === 'checks') {
+    const a = [];
+    f.opts.forEach((o, i) => { if ($(`${f.id}-${i}`).checked) a.push(withOther(f, o, i)); });
+    return { type: 'checks', q: f.label, a };
+  }
+  if (f.type === 'radio') {
+    const i = f.opts.findIndex((_, i) => $(`${f.id}-${i}`).checked);
+    return { type: 'radio', q: f.label, a: i < 0 ? null : withOther(f, f.opts[i], i) };
+  }
+  let v = val(f.id);
+  if (f.type === 'date' && v) v = fmtDate(v);
+  return { type: f.type, q: f.label, a: v || null };
+}
+
+function collect() {
+  return FORM.map((s, i) => ({
+    n: i + 1, title: s.title,
+    items: s.fields.filter(f => f.type !== 'note').map(describe)
+  }));
+}
+
+function units(it) {
+  if (it.type === 'priority') return { d: it.rows.filter(r => r.a).length, t: it.rows.length };
+  if (it.type === 'checks') return { d: it.a.length ? 1 : 0, t: 1 };
+  return { d: it.a ? 1 : 0, t: 1 };
+}
+
+/* ================= Outputs ================= */
+const brandName = () => val('brand');
+const fileBase = () => `requirements-${slug(brandName()) || 'client'}-${isoDate()}`;
+const CRLF = '\r\n';
+
+function toText() {
+  const L = ['BUSINESS SOFTWARE REQUIREMENTS'];
+  if (brandName()) L.push(`Brand: ${brandName()}`);
+  L.push(`Filled on: ${longDate()}`, '');
+  collect().forEach(s => {
+    const head = `${s.n}. ${s.title.toUpperCase()}`;
+    L.push(head, '-'.repeat(head.length));
+    s.items.forEach(it => {
+      if (it.type === 'priority') {
+        L.push(it.q);
+        it.rows.forEach(r => L.push(`  - ${r.q}: ${r.a || 'not answered'}`));
+      } else if (it.type === 'checks') {
+        L.push(it.q);
+        if (it.a.length) it.a.forEach(x => L.push(`  [x] ${x}`)); else L.push('  (nothing selected)');
+      } else if (it.a && it.a.includes('\n')) {
+        L.push(`${it.q}`);
+        it.a.split(/\r?\n/).forEach(line => L.push(`  ${line}`));
+      } else {
+        L.push(`${it.q}: ${it.a || 'not answered'}`);
+      }
+    });
+    L.push('');
+  });
+  return L.join(CRLF);
+}
+
+function buildReport() {
+  const r = $('report');
+  r.replaceChildren();
+  const none = (t) => h('span', { class: 'r-none' }, t);
+  r.append(h('h1', {}, 'Business software requirements'),
+    h('p', { class: 'r-meta' }, [brandName() ? `${brandName()}. ` : '', `Filled on ${longDate()}.`].join('')));
+  collect().forEach(s => {
+    const sec = h('section', { class: 'r-sec' }, h('h2', {}, `${s.n}. ${s.title}`));
+    s.items.forEach(it => {
+      if (it.type === 'priority') {
+        sec.append(h('div', { class: 'r-sub' }, it.q));
+        it.rows.forEach(row => sec.append(h('div', { class: 'r-row' }, h('div', { class: 'r-q' }, row.q), h('div', { class: 'r-a' }, row.a || none('Not answered')))));
+      } else {
+        let ans;
+        if (it.type === 'checks') ans = it.a.length ? h('ul', {}, it.a.map(x => h('li', {}, x))) : none('Nothing selected');
+        else ans = it.a || none('Not answered');
+        sec.append(h('div', { class: 'r-row' }, h('div', { class: 'r-q' }, it.q), h('div', { class: 'r-a' }, ans)));
+      }
+    });
+    r.append(sec);
+  });
+}
+
+function download(name, text) {
+  const blob = new Blob(['﻿', text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = h('a', { href: url, download: name });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+const msg = $('msg');
+let msgTimer;
+function say(t) {
+  msg.textContent = t;
+  clearTimeout(msgTimer);
+  msgTimer = setTimeout(() => { msg.textContent = ''; }, 8000);
+}
+
+/* ================= Autosave ================= */
+const statusEl = $('status');
+let storageOK = true;
+function snapshot() {
+  const s = {};
+  form.querySelectorAll('input,textarea').forEach(e => {
+    if (!e.id) return;
+    s[e.id] = (e.type === 'checkbox' || e.type === 'radio') ? e.checked : e.value;
+  });
+  return s;
+}
+function restore(s) {
+  for (const [id, v] of Object.entries(s || {})) {
+    const e = $(id);
+    if (!e) continue;
+    if (e.type === 'checkbox' || e.type === 'radio') e.checked = !!v; else e.value = v;
+  }
+}
+function save() {
+  try {
+    localStorage.setItem(CONFIG.storageKey, JSON.stringify(snapshot()));
+    storageOK = true;
+    statusEl.replaceChildren('Saved', h('span', { class: 'sm-hide' }, ' on this device'));
+  } catch (_) {
+    storageOK = false;
+    statusEl.textContent = 'Not saved. Download before you leave.';
+  }
+}
+function load() {
+  try { return JSON.parse(localStorage.getItem(CONFIG.storageKey) || 'null'); } catch (_) { return null; }
+}
+let saveTimer;
+const scheduleSave = () => { clearTimeout(saveTimer); saveTimer = setTimeout(save, 300); };
+
+/* ================= Progress ================= */
+const tape = $('tape'), tapeFill = $('tapeFill'), countEl = $('count');
+function syncOpts() {
+  form.querySelectorAll('input.sr').forEach(i => {
+    const host = i.closest('.opt, .seg-opt');
+    if (host) host.classList.toggle('is-on', i.checked);
+    if (i.type === 'radio') i.dataset.was = i.checked ? '1' : '0';
+  });
+}
+function refresh() {
+  syncOpts();
+  let done = 0, total = 0;
+  collect().forEach((s, i) => {
+    let d = 0, t = 0;
+    s.items.forEach(it => { const u = units(it); d += u.d; t += u.t; });
+    done += d; total += t;
+    const a = navLinks[i];
+    a.classList.toggle('full', d === t);
+    a.lastChild.textContent = d === t ? '✓' : `${d}/${t}`;
+  });
+  const pct = total ? Math.round(done / total * 100) : 0;
+  tapeFill.style.width = pct + '%';
+  tape.setAttribute('aria-valuenow', String(pct));
+  countEl.replaceChildren(h('b', {}, String(done)), ` of ${total} answered`);
+}
+
+/* ================= Events ================= */
+form.addEventListener('submit', e => e.preventDefault());
+form.addEventListener('input', () => { refresh(); scheduleSave(); });
+form.addEventListener('change', () => { refresh(); scheduleSave(); });
+// Let people un-pick a radio button by clicking it again
+form.addEventListener('click', e => {
+  const t = e.target;
+  if (!(t instanceof HTMLInputElement) || t.type !== 'radio') return;
+  if (t.dataset.was === '1') t.checked = false;
+  form.querySelectorAll(`input[type="radio"][name="${t.name}"]`).forEach(r => { r.dataset.was = r.checked ? '1' : '0'; });
+  refresh(); scheduleSave();
+});
+
+const ORIGINAL_TITLE = document.title;
+window.addEventListener('beforeprint', () => { buildReport(); document.title = fileBase(); });
+window.addEventListener('afterprint', () => { document.title = ORIGINAL_TITLE; });
+
+$('pdfBtn').addEventListener('click', () => { buildReport(); document.title = fileBase(); window.print(); });
+$('txtBtn').addEventListener('click', () => {
+  const name = `${fileBase()}.txt`;
+  download(name, toText());
+  say('Text file downloaded. Now send it to us.');
+});
+$('clearBtn').addEventListener('click', () => {
+  if (!confirm('Clear all your answers? This cannot be undone.')) return;
+  form.reset();
+  try { localStorage.removeItem(CONFIG.storageKey); } catch (_) {}
+  refresh();
+  statusEl.textContent = 'Saves as you go';
+  say('All answers cleared.');
+  window.scrollTo({ top: 0 });
+});
+
+// Share button: only where the browser can share files (most phones)
+const shareBtn = $('shareBtn');
+try {
+  const probe = new File(['x'], 'a.txt', { type: 'text/plain' });
+  if (navigator.canShare && navigator.canShare({ files: [probe] })) shareBtn.hidden = false;
+} catch (_) {}
+shareBtn.addEventListener('click', async () => {
+  try {
+    const file = new File(['﻿' + toText()], `${fileBase()}.txt`, { type: 'text/plain' });
+    await navigator.share({ files: [file], title: 'Business software requirements' });
+  } catch (err) {
+    if (err && err.name !== 'AbortError') say('Sharing did not work here. Use “Download text file” instead.');
+  }
+});
+
+// Who to send it to
+if (CONFIG.developer) {
+  $('sendTo').textContent = CONFIG.developer;
+  $('sendTo2').textContent = CONFIG.developer;
+}
+
+// Highlight the current section in the side list
+const spyEls = [...secEls, $('finish')];
+const spyLinks = [...navLinks, finishLink];
+let spyTick = false;
+function spy() {
+  spyTick = false;
+  const line = window.innerHeight * 0.28;
+  let idx = -1;
+  spyEls.forEach((el, i) => { if (el.getBoundingClientRect().top <= line) idx = i; });
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = spyEls.length - 1;
+  spyLinks.forEach((a, i) => { if (i === idx) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+}
+window.addEventListener('scroll', () => { if (!spyTick) { spyTick = true; requestAnimationFrame(spy); } }, { passive: true });
+window.addEventListener('resize', spy);
+
+/* ================= Start ================= */
+restore(load());
+refresh();
+spy();
+})();
+</script>
+</body>
+</html>
